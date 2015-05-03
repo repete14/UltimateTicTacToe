@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -35,13 +38,12 @@ public class MainActivity extends ActionBarActivity {
 
     //get random board move
     public void makeRandomMove(Board gameBoard){
-        //do i get to go anywhere?
-        if (gameBoard.getNextGame() == -1) {
-            gameBoard.makeMove((int) (Math.random() * 9), (int) (Math.random() * 9), gameBoard.getCurPlayer());
-        }else{
-            //or just in a specific game?
-            gameBoard.makeMove(gameBoard.getNextGame(), (int) (Math.random() * 9), gameBoard.getCurPlayer());
-        }
+        List moves = gameBoard.listAvailableMoves();
+        int move = (int)moves.get((int)(Math.random()*moves.size()));
+        int moveGame = (int)(move/10);
+        int moveTile = (move % 10);
+        Log.d("GAME MOVE:", "making move at " + moveGame + " " + moveTile);
+        gameBoard.makeMove(moveGame,moveTile,gameBoard.getCurPlayer());
     }
 
 

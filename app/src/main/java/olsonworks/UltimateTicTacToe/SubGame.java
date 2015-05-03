@@ -1,5 +1,8 @@
 package olsonworks.UltimateTicTacToe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Peter Olson on 4/29/2015.
  *
@@ -58,7 +61,7 @@ public class SubGame {
 
     //Double checks to make sure move is legal
     public boolean isLegalMove(int location){
-        if(tiles[location] != 0 || won) return false;
+        if(won || tiles[location] != 0) return false;
         return true;
     }
 
@@ -80,8 +83,14 @@ public class SubGame {
     }
 
     //will return a list of all available moves, but I have to remember how lists are implemented first...
-    public int[] listAvailableMoves(){
-        int[] moves = new int[1];
+    public List listAvailableMoves(){
+        List moves = new ArrayList();
+
+        for (int i = 0; i < 9; i++) {
+            if (isLegalMove(i)){
+                moves.add(i);
+            }
+        }
 
         return moves;
     }

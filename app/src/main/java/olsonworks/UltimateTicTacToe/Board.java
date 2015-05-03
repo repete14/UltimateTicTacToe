@@ -1,6 +1,9 @@
 package olsonworks.UltimateTicTacToe;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Peter Olson on 4/29/2015.
  */
@@ -55,6 +58,26 @@ public class Board {
     //Make sure it is a legal move
     public boolean isLegalMove(int subGame,int location){
         return games[subGame].isLegalMove(location);
+    }
+
+    //will return a list of all available moves, but I have to remember how lists are implemented first...
+    public List listAvailableMoves(){
+        List moves = new ArrayList();
+
+        //iterates through possible moves and adds them to list if legal move
+        for (int i = 0; i < 9; i++) {
+            //checks to see if this game is the allowed game, or you have an any move
+            if (nextGame == i || nextGame == -1) {
+                for (int j = 0; j < 9; j++) {
+                    //it the move legal?
+                    if (games[i].isLegalMove(j)) {
+                        //add to list of available moves, with the first digit as game, second digit as tile
+                        moves.add((i * 10) + j);
+                    }
+                }
+            }
+        }
+        return moves;
     }
 
     //Returns a 3x3x3x3 array of integers that represents the board state
