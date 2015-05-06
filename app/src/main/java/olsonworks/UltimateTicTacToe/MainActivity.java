@@ -11,71 +11,22 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-
-    Board gameBoard;
-    Boolean gameOver;
+    TTTGame game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Make official gameBoard
-        gameBoard = new Board();
-        gameOver = false;
+        game = new TTTGame();
 
-        //Just a test by making random moves until game is over
-        while(! gameOver){
-            makeRandomMove(gameBoard);
-            logBoard(gameBoard);
-            gameOver = gameBoard.checkWin();
+        while (!game.getGameOver()) {
+            game.takeTurn();
         }
 
-        Log.d("GAME MOVE:", "game over");
-
-
-    }
-
-    //get random board move
-    public void makeRandomMove(Board gameBoard){
-        List moves = gameBoard.listAvailableMoves();
-        int move = (int)moves.get((int)(Math.random()*moves.size()));
-        int moveGame = (int)(move/10);
-        int moveTile = (move % 10);
-        Log.d("GAME MOVE:", "making move at " + moveGame + " " + moveTile);
-        gameBoard.makeMove(moveGame,moveTile,gameBoard.getCurPlayer());
     }
 
 
-    public void logBoard(Board board){
-        String output = "";
-        int[][][][] boardSpace = board.indexBoard();
-        Log.d("GAME MOVE:", "new move");
-        Log.d("GAME MOVE:", "-------------");
-        for (int iGameY = 0; iGameY < 3; iGameY++) {
-            for (int iTileY = 0; iTileY < 3; iTileY++) {
-                output = "|";
-                for (int iGameX = 0; iGameX < 3; iGameX++) {
-                    for (int iTileX = 0; iTileX < 3; iTileX++) {
-                        switch (boardSpace[iGameX][iGameY][iTileX][iTileY]){
-                            case 1:
-                                output += "X";
-                                break;
-                            case 2:
-                                output += "O";
-                                break;
-                            default:
-                                output += "*";
-                                break;
-                        }
-                    }
-                    output +="|";
-                }
-                Log.d("GAME MOVE:",output);
-            }
-            Log.d("GAME MOVE:", "-------------");
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

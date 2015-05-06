@@ -1,6 +1,8 @@
 package olsonworks.UltimateTicTacToe;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +11,13 @@ import java.util.List;
  */
 public class Board {
 
-    private int curPlayer;
+
     private SubGame[] games;
     //Which subGame you must play in next, -1 if any
     private int nextGame;
 
     //Create new blank Board
     public Board(){
-        curPlayer = 1;
         games = new SubGame[9];
         nextGame = -1;
 
@@ -27,7 +28,6 @@ public class Board {
 
     //Create new board as copy of incoming Board
     public Board(Board template){
-        setCurPlayer(template.getCurPlayer());
         setGames(template.getGames());
     }
 
@@ -37,12 +37,6 @@ public class Board {
             //Makes move
             games[subGame].makeMove(location, player);
 
-            //Changes current Player
-            if (curPlayer == 1){
-                curPlayer = 2;
-            }else{
-                curPlayer = 1;
-            }
 
             //Checks if this makes a "Freemove", and sets where the next move will be
             if(games[location].isWon()){
@@ -50,6 +44,8 @@ public class Board {
             }else{
                 nextGame = location;
             }
+        }else{
+            Log.d("GAME MOVE:","Illegal move");
         }
 
         return nextGame;
@@ -88,7 +84,7 @@ public class Board {
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     for (int l = 0; l < 3; l++) {
-                        stateSpace[i][j][k][l] = games[(i*3)+j].getTile((k*3)+l);
+                        stateSpace[i][j][k][l] = games[(j*3)+i].getTile((l*3)+k);
                     }
                 }
             }
@@ -114,14 +110,6 @@ public class Board {
     }
 
     //Getters and setters
-    public int getCurPlayer() {
-        return curPlayer;
-    }
-
-    public void setCurPlayer(int curPlayer) {
-        this.curPlayer = curPlayer;
-    }
-
     public SubGame[] getGames() {
         return games;
     }
